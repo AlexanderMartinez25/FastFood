@@ -1,0 +1,24 @@
+{
+  "name": "don-jose",
+  "version": "0.1.0",
+  "homepage": "https://AlexanderMartinez25.github.io/FastFood",
+  "private": true,
+  "dependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "react-swipeable-views": "^0.12.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build -b gh-pages -r https://github.com/AlexanderMartinez25/FastFood.git"
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^7.4.0"
+  }
+}

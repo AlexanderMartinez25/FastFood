@@ -1,0 +1,61 @@
+[
+    {
+    "id": 1,
+    "nombre": "Pizza Americana",
+    "poster": "https://media.betazeta.com/sabrosia/2016/05/maxresdefault.jpg",
+    "precio": 6500,
+    "descripcion": "Pepperoni, mozzarella, pimentón, tomate y aceitunas.",
+    "categoria": 0
+    },{
+    "id": 2,
+    "nombre": "Completo XL",
+    "poster": "http://www.lacocinachilena.tk/wp-content/uploads/2016/05/completo-italiano.jpg",
+    "precio": 780,
+    "descripcion": "Trozos de carne, cebolla morada, tomates salteados y papas fritas, acompañado de arroz.",
+    "categoria": 0
+    },{
+    "id": 3,
+    "nombre": "Coca-Cola Zero Combo",
+    "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+    "precio": 1890,
+    "descripcion": "bebida lata",
+    "categoria": 2
+    },{
+    "id": 4,
+    "nombre": "Coca-Cola Zero Combo",
+    "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+    "precio": 1890,
+    "descripcion": "bebida lata",
+    "categoria": 2
+    },{
+    "id": 5,
+    "nombre": "Coca-Cola Zero Combo",
+    "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+    "precio": 1890,
+    "descripcion": "bebida lata",
+    "categoria": 2
+    },{
+    "id": 6,
+    "nombre": "Coca-Cola Zero Combo",
+    "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+    "precio": 1890,
+    "descripcion": "bebida lata",
+    "categoria": 2
+    },{
+    "id": 7,
+    "nombre": "Coca-Cola Zero bebidaa",
+    "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+    "precio": 1890,
+    "descripcion": "bebida lata bebida",
+    "categoria": 3
+    },{
+    "id": 8,
+    "nombre": "Coca-Cola Zero bebidaa",
+    "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+    "precio": 1890,
+    "descripcion": "bebida lata bebida",
+    "categoria": 3
+    }
+]
+
+  

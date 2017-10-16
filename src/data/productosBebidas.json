@@ -1,0 +1,19 @@
+{
+  "productos": [
+    {
+      "id": 7,
+      "nombre": "Coca-Cola Zero bebidaa",
+      "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+      "precio": 1890,
+      "descripcion": "bebida lata bebida",
+      "categoria": 3
+    },{
+      "id": 8,
+      "nombre": "Coca-Cola Zero bebidaa",
+      "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+      "precio": 1890,
+      "descripcion": "bebida lata bebida",
+      "categoria": 3
+    }
+  ]
+}

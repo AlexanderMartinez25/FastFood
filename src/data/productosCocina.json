@@ -1,0 +1,20 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Pizza Americana",
+      "poster": "https://media.betazeta.com/sabrosia/2016/05/maxresdefault.jpg",
+      "precio": 6500,
+      "descripcion": "Pepperoni, mozzarella, pimentón, tomate y aceitunas.",
+      "categoria": 0
+    },
+    {
+      "id": 2,
+      "nombre": "Completo XL",
+      "poster": "http://www.lacocinachilena.tk/wp-content/uploads/2016/05/completo-italiano.jpg",
+      "precio": 780,
+      "descripcion": "Trozos de carne, cebolla morada, tomates salteados y papas fritas, acompañado de arroz.",
+      "categoria": 0
+    }
+  ]
+}

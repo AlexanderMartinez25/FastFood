@@ -1,0 +1,20 @@
+{
+  "productos": [
+    {
+      "id": 3,
+      "nombre": "Coca-Cola Zero Combo",
+      "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+      "precio": 1890,
+      "descripcion": "bebida lata",
+      "categoria": 2
+    },{
+      "id": 4,
+      "nombre": "Coca-Cola Zero Combo",
+      "poster": "http://comemesandwicheria.cl/wp-content/uploads/2017/06/zero2.jpg",
+      "precio": 1890,
+      "descripcion": "bebida lata",
+      "categoria": 2
+    }
+  ]
+}
+  
