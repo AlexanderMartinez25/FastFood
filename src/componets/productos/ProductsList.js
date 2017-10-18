@@ -19,22 +19,28 @@ class CardExampleWithAvatar extends React.Component {
 
    handledClick = () => {
       const currentState = this.state.active;
-      this.setState({ active: !currentState });
+      this.setState({ 
+         active: !currentState,
+         cantidad: 1
+      });
       this.props.evento(this.props,this.state.active)
    }
 
    incrementCant = () => {
-     this.setState({
-        cantidad:this.state.cantidad + 1
-     });
-     this.props.evento(this.props,false,this.state.cantidad + 1)
+      this.setState({
+         cantidad:this.state.cantidad + 1
+      });
+      this.props.evento(this.props,false,this.state.cantidad + 1)
    }
 
    decrementCant = () => {
+
       if (this.state.cantidad>1){
          this.setState({
             cantidad:this.state.cantidad - 1
          })
+         this.props.evento(this.props,false,this.state.cantidad - 1)
+      
       }
    }
 
@@ -83,8 +89,6 @@ class CardExampleWithAvatar extends React.Component {
                   </div>
                }
             </CardActions>
-            
-
          </Card>
       )  
   }
