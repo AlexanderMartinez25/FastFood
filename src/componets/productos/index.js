@@ -1,172 +1,128 @@
 import React from 'react';
-// import Subheader from 'material-ui/Subheader';
-import FontIcon from 'material-ui/FontIcon';
-import Restaurant from 'material-ui/svg-icons/maps/restaurant';
-import LocalDrink from 'material-ui/svg-icons/maps/local-drink';
-import RoomService from 'material-ui/svg-icons/places/room-service';
-import LocalBar from 'material-ui/svg-icons/maps/local-bar';
 import RaisedButton from 'material-ui/RaisedButton';
-
-import {Tabs, Tab} from 'material-ui/Tabs';
-import SwipeableViews from 'react-swipeable-views';
+import FlatButton from 'material-ui/FlatButton';
 import "@material/typography/dist/mdc.typography.css";
-import Grid from "./Grid";
-import {Card, CardTitle, CardActions} from 'material-ui/Card';
-import { 
-   cocina,
-   combos,
-   postres,
-   bebidas,
-   productos } from "../../data/";
+import {
+   Step,
+   Stepper,
+   StepLabel,
+ } from 'material-ui/Stepper';
+import  MenuProductos from "./MenuProductos";
+import TipoPago from "./TipoPago";
 
-const styles = {
-   root: {
-      // display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around'
-   },
-   gridList: {
-      width: 100,
-      height: 150,
-      overflowY: 'auto'
-   },
-   slide: {
-      padding: 10
-   },
-   margin: {
-      padding: 15
-   },
-   tabs: {
-      background: '#3F51B5',
-   },
-   raised:{
-      float:'right',
-   }
-};
-
-/**
- * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
- */
 class GridListExampleSimple extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         cocina: cocina,
-         postres: postres,
-         bebidas: bebidas,
-         combos: combos,
-         productos: productos,
-         slideIndex: 0,
-         orderItems: []
+         finished: false,
+         stepIndex: 0,
+         orderList: [],
+         subtotal: 0
       }
-      this.addProduct = this.addProduct.bind(this);
-      this.deleteProduct = this.deleteProduct.bind(this);
-      // this.sumProduct = this.sumProduct.bind(this);
-      // this.restProduct = this.restProduct.bind(this);
-
+      this.getOrderIntems = this.getOrderIntems.bind(this);
+      this.totalizar = this.totalizar.bind(this);
    }
 
-   handleChange = (value) => {
+   getOrderIntems(list) {
+      this.setState ({
+         orderList: list
+      })
+      this.totalizar(list,'precio')
+   }
+
+   handleNext = () => {
+      const {stepIndex} = this.state;
       this.setState({
-         slideIndex: value,
+        stepIndex: stepIndex + 1,
+        finished: stepIndex >= 2,
+      });
+   };
+
+   handlePrev = () => {
+      const {stepIndex} = this.state;
+      if (stepIndex > 0) {
+        this.setState({stepIndex: stepIndex - 1});
+      }
+   };
+
+   getStepContent(stepIndex) {
+      switch (stepIndex) {
+         case 0:
+            return <MenuProductos evento={this.getOrderIntems} />;
+         case 1:
+            return <TipoPago subtotal={this.state.subtotal}/>;
+         case 2:
+            return 'This is the bit I really care about!';
+         default:
+            return 'You\'re a long way from home sonny jim!';
+      }
+   }
+
+   totalizar (objeto) {
+      let resultado = 0;
+      for (let i in objeto) {
+         resultado += objeto[i].precio*objeto[i].cantidad;
+      }
+      
+      this.setState({
+         subtotal : resultado
       })
    }
    
-   addProduct = (product,active,cantidad) => { 
-      //Si el producto se encuentra activo
-      if (active){ 
-         this.deleteProduct(product)
-         return
-      }else if(cantidad){//si se esta sumando al mismo producto
-         this.deleteProduct(product)
-      };
-      const newItem = {
-         id: product.id,
-         nombre: product.nombre,
-         precio: product.precio,
-         cantidad: cantidad ? cantidad : product.cantidad,
-      };
-      this.setState((prevState) => ({
-         orderItems: prevState.orderItems.concat(newItem),
-      }));
-   };
-
-   deleteProduct = (product) => {
-      let array = this.state.orderItems,
-         itemRemoved = array.filter(function(el) {
-             return el.id !== product.id;
-         }),
-         newArray=itemRemoved;
-
-      this.setState((prevState) => ({
-         orderItems: newArray,
-		}));		
-   };
 
    render() {
+      const {finished, stepIndex} = this.state;
+      const contentStyle = {margin: '0 16px'};
+
       return (
-         <div style={styles.root}>
-            <div style={styles.margin}>
-               <Card>
-                  <CardActions>
-                     <RaisedButton label="Continuar" primary={true} style={styles.raised}/>
-                     <h3 className="mdc-typography--Headline">Productos</h3>{/* <OrderList orderItems={this.state.orderItems} /> */}                     
-                  </CardActions>
-                  <Tabs
-                     onChange={this.handleChange}
-                     value={this.state.slideIndex}>
+         <div style={{width: '100%', maxWidth: 1200, margin: 'auto'}}>
+            <Stepper activeStep={stepIndex}>
+               <Step>
+                  <StepLabel>Seleccione productos</StepLabel>
+               </Step>
+               <Step>
+                  <StepLabel>Selecciona el metodo de pago</StepLabel>
+               </Step>
+               <Step>
+                  <StepLabel>Finalizar Pedido</StepLabel>
+               </Step>
+            </Stepper>
+            {/* <OrderList orderItems={this.state.orderList} /> */}
 
-                     <Tab 
-                        icon={<RoomService />}
-                        label="Cocina" 
-                        value={0} />
-                     <Tab 
-                        label="Combos" 
-                        icon={<Restaurant />}
-                        value={1} />
-                     <Tab 
-                        label="Postres" 
-                        icon={<LocalBar />}
-                        value={2} />
-
-                     <Tab 
-                        label="Bebidas" 
-                        icon={<LocalDrink />}
-                        value={3} />
-                  </Tabs>
-
-                  <SwipeableViews
-                     index={this.state.slideIndex}
-                     onChangeIndex={this.handleChange}>
-
-                     <div style={styles.slide} >
-                     <Grid 
-                           estilo={styles.gridList} 
-                           productos={this.state.cocina}
-                           evento={this.addProduct}/>
+            <div style={contentStyle}>
+               {finished ? (
+                  <p>
+                     <a
+                     href="#"
+                     onClick={(event) => {
+                        event.preventDefault();
+                        this.setState({stepIndex: 0, finished: false});
+                     }}
+                     >
+                     Click here
+                     </a> to reset the example.
+                  </p>
+               ) : (
+                  <div>
+                     <p>{this.getStepContent(stepIndex)}</p>
+                     <div style={{marginTop: 12}}>
+                     <FlatButton
+                        label="Regresar"
+                        disabled={stepIndex === 0}
+                        onClick={this.handlePrev}
+                        style={{marginRight: 12}}
+                     />
+                     <RaisedButton
+                        label={stepIndex === 2 ? 'Finalizar' : 'Continuar'}
+                        primary={true}
+                        onClick={this.handleNext}
+                        disabled={!this.state.orderList.length}
+                     />
                      </div>
-                     <div style={styles.slide}>
-                        <Grid 
-                           estilo={styles.gridList}
-                           productos={this.state.combos} 
-                           evento={this.addProduct}/>
-                     </div>
-                     <div style={styles.slide}>
-                        <Grid 
-                           estilo={styles.gridList} 
-                           productos={this.state.postres}
-                           evento={this.addProduct}/>
-                     </div>
-                     <div style={styles.slide}>
-                        <Grid 
-                           estilo={styles.gridList} 
-                           productos={this.state.bebidas}
-                           evento={this.addProduct}/>
-                     </div>
-                  </SwipeableViews>
-               </Card>
+                  </div>
+               )}
             </div>
-         </div>  
+         </div> 
       );
    }  
 }
@@ -187,5 +143,6 @@ class GridListExampleSimple extends React.Component {
 //       );
 //    }
 // }
+
 
 export default GridListExampleSimple;

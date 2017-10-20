@@ -4,6 +4,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
+
 class CardExampleWithAvatar extends React.Component {
    constructor(props) {
       super(props);
@@ -40,7 +41,6 @@ class CardExampleWithAvatar extends React.Component {
             cantidad:this.state.cantidad - 1
          })
          this.props.evento(this.props,false,this.state.cantidad - 1)
-      
       }
    }
 
@@ -91,8 +91,9 @@ class CardExampleWithAvatar extends React.Component {
             </CardActions>
          </Card>
       )  
-  }
+   }
   
 };
+
 
 export default CardExampleWithAvatar;
