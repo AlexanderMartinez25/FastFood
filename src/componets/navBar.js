@@ -19,7 +19,7 @@ class AppBarExampleIcon extends React.Component {
     return (
       <div> 
         <AppBar
-          title={"Don Jose Fast Food"}
+          title={this.props.title}
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.onClick}
           onRightIconButtonTouchTap={IconRight}
