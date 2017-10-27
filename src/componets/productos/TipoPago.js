@@ -3,10 +3,11 @@ import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
 import { GridList } from 'material-ui/GridList';
 import NumberFormat from 'react-number-format'
+import OrderList from './OrderList'
 
 const styles = {
   block: {
-    maxWidth: 250,
+    maxWidth: 1200,
   },
   toggle: {
     marginBottom: 16,
@@ -41,74 +42,56 @@ const styles = {
 class ToggleExampleSimple extends React.Component {
    constructor(props) {
       super(props);
-      this.state = {
-         toggleEfectivo : false,
-         toggleCheque : false,
-         cambio : '',
-         valueEfectivo : '',
-         valueCheque : '' 
-      }
-      this.toggleEfectivo = this.toggleEfectivo.bind(this);
-      this.toggleCheque = this.toggleCheque.bind(this);
-      this.handleInputChange = this.handleInputChange.bind(this);
+      this.handleToggleEfectivo = this.handleToggleEfectivo.bind(this);
+      this.handleToggleCheque = this.handleToggleCheque.bind(this);
+      this.handleChange = this.handleChange.bind(this);
    }
 
-   toggleEfectivo () {
-      const currentState = this.state.toggleEfectivo;
-      this.setState({ 
-         toggleEfectivo: !currentState,
-      });
+   handleToggleEfectivo () {
+      this.props.eventoEfectivo()
    }
 
-   toggleCheque () {
-      const currentState = this.state.toggleCheque;
-      this.setState({ 
-         toggleCheque: !currentState,
-      });
+   handleToggleCheque () {
+      this.props.eventoCheque()
    }
 
-   handleInputChange(event) {
+   handleChange(event) {
       const target = event.target;
-      let subtotal = this.props.subtotal,
-          cambio = target.value - subtotal;
-  
-      // this.setState({
-      //   cambio: cambio
-      // });
-
+      this.props.eventoInput(target)
    }
 
    render() {
       return (
          <div style={styles.root}>
+            <OrderList orderItems={this.props.propiedades.orderList} />
+         
             <GridList>
                <div style={styles.block}>
                   <Toggle
                      label="Efectivo"
                      style={styles.toggle}
-                     onToggle={this.toggleEfectivo}
+                     defaultToggled={this.props.propiedades.valueEfectivo}
+                     onToggle={this.handleToggleEfectivo}
                   />
-                  {this.state.toggleEfectivo ? 
-                     <NumberFormat hintText="Cantidad" name="velueEfectivo" customInput={TextField} decimalSeparator=","
-                         value={this.state.valueEfectivo} isNumericString={true} onChange={this.handleInputChange} thousandSeparator={'.'} prefix={'$'} /> : null
+                  {this.props.propiedades.toggleEfectivo ? 
+                     <NumberFormat hintText="Cantidad" name="valueEfectivo" customInput={TextField} decimalSeparator=","
+                         value={this.props.propiedades.valueEfectivo} onChange={this.handleChange} thousandSeparator={'.'} prefix={'$'} /> : null
                   }
                   <Toggle
                      label="Cheque"
                      style={styles.toggle}
-                     onToggle={this.toggleCheque}
+                     defaultToggled={this.props.propiedades.valueCheque}
+                     onToggle={this.handleToggleCheque}
                   />
-                  {this.state.toggleCheque ? 
-                     <NumberFormat hintText="Cantidad" value="valueCheque" customInput={TextField} decimalSeparator=","
-                        value={this.state.valueCheque} onChange={this.handleInputChange} thousandSeparator={'.'} prefix={'$'} /> : null
+                  {this.props.propiedades.toggleCheque ? 
+                     <NumberFormat hintText="Cantidad" name="valueCheque" customInput={TextField} decimalSeparator=","
+                        value={this.props.propiedades.valueCheque} onChange={(e,values) => this.handleChange(e,values)} thousandSeparator={'.'} prefix={'$'} /> : null
                   }
-
-                  <h3>Subtotal: <NumberFormat value={this.props.subtotal} displayType={'text'} 
-                     decimalSeparator=","  thousandSeparator={'.'} prefix={'$'} /></h3>
-
-                  <h3>Cambio: <NumberFormat value={this.state.cambio} displayType={'text'} 
-                     decimalSeparator="," thousandSeparator={'.'} prefix={'$'} /> </h3>
                </div>
-            </GridList>
+               </GridList>
+            <h3>Total: <NumberFormat value={this.props.propiedades.subtotal} displayType={'text'} 
+            decimalSeparator="," thousandSeparator={'.'} prefix={'$'} /></h3>
+                        
          </div>
       );
    }

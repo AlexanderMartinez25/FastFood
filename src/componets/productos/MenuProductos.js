@@ -49,6 +49,7 @@ class MenuProductos extends React.Component {
       this.deleteProduct = this.deleteProduct.bind(this)      
       this.addProduct = this.addProduct.bind(this)
       this.APICallFunction = this.APICallFunction.bind(this)
+      this.handleEventComentario = this.handleEventComentario.bind(this);
       
    }
 
@@ -58,7 +59,7 @@ class MenuProductos extends React.Component {
       })
    }
    
-   addProduct = (product,active,cantidad) => { 
+   addProduct = (product,comentarios,active,cantidad) => { 
       
       //Si el producto se encuentra activo
       if (active){ 
@@ -72,6 +73,7 @@ class MenuProductos extends React.Component {
          id: product.id,
          nombre: product.nombre,
          precio: product.precio,
+         comentarios: comentarios,
          cantidad: cantidad ? cantidad : product.cantidad,
       };
       
@@ -83,7 +85,25 @@ class MenuProductos extends React.Component {
    
    APICallFunction () {
       this.props.evento(this.state.orderItems)
-   };  
+	};
+	
+   handleEventComentario (product,comentarios,cantidad ) {
+
+		this.deleteProduct(product)
+
+		const newItem = {
+			id: product.id,
+			nombre: product.nombre,
+			precio: product.precio,
+			comentarios: comentarios,
+			cantidad: cantidad ? cantidad : product.cantidad,
+      };
+         
+		this.setState((prevState) => ({
+			orderItems: prevState.orderItems.concat(newItem),
+			}), () => this.APICallFunction()
+		)
+   }
 
    deleteProduct = (product) => {
       let array = this.state.orderItems,
@@ -121,25 +141,29 @@ class MenuProductos extends React.Component {
                      <Grid 
                         estilo={styles.gridList} 
                         productos={this.state.cocina}
-                        evento={this.addProduct}/>
+                        evento={this.addProduct}
+                        comentario={this.handleEventComentario}/>
                   </div>
                   <div style={styles.slide}>
                      <Grid 
                         estilo={styles.gridList}
                         productos={this.state.combos} 
-                        evento={this.addProduct}/>
+                        evento={this.addProduct}
+                        comentario={this.handleEventComentario}/>
                   </div>
                   <div style={styles.slide}>
                      <Grid 
                         estilo={styles.gridList} 
                         productos={this.state.postres}
-                        evento={this.addProduct}/>
+                        evento={this.addProduct}
+                        comentario={this.handleEventComentario}/>
                   </div>
                   <div style={styles.slide}>
                      <Grid 
                         estilo={styles.gridList} 
                         productos={this.state.bebidas}
-                        evento={this.addProduct}/>
+                        evento={this.addProduct}
+                        comentario={this.handleEventComentario}/>
                   </div>
                </SwipeableViews>
             </div>

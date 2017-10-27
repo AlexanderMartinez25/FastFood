@@ -16,16 +16,19 @@ export default class DrawerUndockedExample extends React.Component {
 
    constructor(props) {
       super(props);
-      this.state = {open: false};
+      this.state = {
+         open: false,
+         title: 'Productos'
+      };
    }
 
    handleToggle = () => this.setState({open: !this.state.open});
-   handleClose = () => this.setState({open: false});
+   handleClose = (title) => this.setState({open: false, title:title});
   
    render() {
       return (
          <div>
-            <NavBar handleToggle={this.handleToggle} />
+            <NavBar title={this.state.title} handleToggle={this.handleToggle} />
 
             <Router>
                <div> 
@@ -36,21 +39,21 @@ export default class DrawerUndockedExample extends React.Component {
                      onRequestChange={(open) => this.setState({open})}
                      >
                   
-                     <Link to="/">
-                        <MenuItem  onClick={this.handleClose}>
+                     <Link to="/" >
+                        <MenuItem onClick={(e) =>this.handleClose('Productos')}>
                            Productos
                         </MenuItem>
                      </Link>
 
                      <Link to="/about">
-                        <MenuItem  onClick={this.handleClose}>
-                           Home
+                        <MenuItem onClick={(e) =>this.handleClose('About')}>
+                           About
                         </MenuItem>
                      </Link>
                   
                   </Drawer>
-               
-                     <Route exact path="/" component={Productos}/>
+
+                  <Route exact path="/" component={Productos}/>
                   <Route path="/about" component={About}/>
                </div>
             </Router>
@@ -59,6 +62,7 @@ export default class DrawerUndockedExample extends React.Component {
       );
    }
 }
+
 const Productos = () => (
    <Grid />
 )

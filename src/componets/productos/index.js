@@ -7,8 +7,11 @@ import {
    Stepper,
    StepLabel,
  } from 'material-ui/Stepper';
-import  MenuProductos from "./MenuProductos";
+import MenuProductos from "./MenuProductos";
 import TipoPago from "./TipoPago";
+import InfoCambio from './InfoCambio'
+
+
 
 class GridListExampleSimple extends React.Component {
    constructor(props) {
@@ -17,10 +20,20 @@ class GridListExampleSimple extends React.Component {
          finished: false,
          stepIndex: 0,
          orderList: [],
-         subtotal: 0
+         subtotal: 0,        
+         cambio : 0,
+         valueEfectivo : 0,
+         valueCheque : 0,
+         toggleEfectivo : false,
+         toggleCheque : false,
+         
       }
       this.getOrderIntems = this.getOrderIntems.bind(this);
       this.totalizar = this.totalizar.bind(this);
+      this.handleInputChange = this.handleInputChange.bind(this);
+      this.toggleEfectivo = this.toggleEfectivo.bind(this);
+      this.toggleCheque = this.toggleCheque.bind(this);
+
    }
 
    getOrderIntems(list) {
@@ -31,10 +44,11 @@ class GridListExampleSimple extends React.Component {
    }
 
    handleNext = () => {
-      const {stepIndex} = this.state;
+      const {stepIndex,valueCheque,valueEfectivo,subtotal} = this.state;
       this.setState({
         stepIndex: stepIndex + 1,
         finished: stepIndex >= 2,
+        cambio: (valueCheque+valueEfectivo)-subtotal
       });
    };
 
@@ -45,14 +59,32 @@ class GridListExampleSimple extends React.Component {
       }
    };
 
+   handleInputChange(target) {
+      let subtotal = this.state.subtotal,
+          name = target.name,
+          montoTotal = this.unformat(target.value,subtotal);
+          // cambio = (montoTotal+this.state.valueCheque+this.state.valueEfectivo) - subtotal;
+      this.setState({ [name] : montoTotal});
+
+   }
+   
+   unformat(value){
+      let monto1 = value.replace("$",''),
+          monto2 = monto1.replace(".",''),
+          montoTotal = monto2.replace(",",'.');
+      
+      return parseInt(montoTotal);
+   }
+
    getStepContent(stepIndex) {
       switch (stepIndex) {
          case 0:
             return <MenuProductos evento={this.getOrderIntems} />;
          case 1:
-            return <TipoPago subtotal={this.state.subtotal}/>;
+            return <TipoPago eventoInput={this.handleInputChange} eventoCheque={this.toggleCheque} eventoEfectivo={this.toggleEfectivo} propiedades={this.state}/>;
          case 2:
-            return 'This is the bit I really care about!';
+            
+            return <InfoCambio total={this.state.subtotal} cambio={this.state.cambio} />;
          default:
             return 'You\'re a long way from home sonny jim!';
       }
@@ -68,14 +100,27 @@ class GridListExampleSimple extends React.Component {
          subtotal : resultado
       })
    }
-   
+
+   toggleEfectivo () {
+      const currentState = this.state.toggleEfectivo;
+      this.setState({ 
+         toggleEfectivo: !currentState,
+      });
+   }
+
+   toggleCheque () {
+      const currentState = this.state.toggleCheque;
+      this.setState({ 
+         toggleCheque: !currentState,
+      });
+   }
 
    render() {
       const {finished, stepIndex} = this.state;
       const contentStyle = {margin: '0 16px'};
 
       return (
-         <div style={{width: '100%', maxWidth: 1200, margin: 'auto'}}>
+         <div style={{width: '100%', maxWidth: 1200, margin: 'auto', 'padding-bottom': '20px'}}>
             <Stepper activeStep={stepIndex}>
                <Step>
                   <StepLabel>Seleccione productos</StepLabel>
@@ -87,25 +132,70 @@ class GridListExampleSimple extends React.Component {
                   <StepLabel>Finalizar Pedido</StepLabel>
                </Step>
             </Stepper>
-            {/* <OrderList orderItems={this.state.orderList} /> */}
 
             <div style={contentStyle}>
                {finished ? (
-                  <p>
-                     <a
-                     href="#"
+                  <a
+                  href="#"
+                  onClick={(event) => {
+                     event.preventDefault();
+                     this.setState({
+                           finished: false,
+                           stepIndex: 0,
+                           orderList: [],
+                           subtotal: 0,        
+                           cambio : 0,
+                           valueEfectivo : 0,
+                           valueCheque : 0,
+                           toggleEfectivo : false,
+                           toggleCheque : false
+                        });
+                  }}
+                  >
+                  
+                  <RaisedButton
+                     label="Regresar"
+                     primary={true}
                      onClick={(event) => {
                         event.preventDefault();
-                        this.setState({stepIndex: 0, finished: false});
+                        this.setState({
+                           finished: false,
+                           stepIndex: 0,
+                           orderList: [],
+                           subtotal: 0,        
+                           cambio : 0,
+                           valueEfectivo : 0,
+                           valueCheque : 0,
+                           toggleEfectivo : false,
+                           toggleCheque : false
+                        });
                      }}
-                     >
-                     Click here
-                     </a> to reset the example.
-                  </p>
+                  />
+                  </a> 
                ) : (
                   <div>
-                     <p>{this.getStepContent(stepIndex)}</p>
+                     {this.getStepContent(stepIndex)}
                      <div style={{marginTop: 12}}>
+                     <FlatButton
+                        label="Cancelar"
+                        secondary={true}
+                        disabled={stepIndex === 0}
+                        onClick={(event) => {
+                           event.preventDefault();
+                           this.setState({
+                              finished: false,
+                              stepIndex: 0,
+                              orderList: [],
+                              subtotal: 0,        
+                              cambio : 0,
+                              valueEfectivo : 0,
+                              valueCheque : 0,
+                              toggleEfectivo : false,
+                              toggleCheque : false
+                           });
+                        }}
+                        style={{marginRight: 12}}
+                     />
                      <FlatButton
                         label="Regresar"
                         disabled={stepIndex === 0}
@@ -127,22 +217,7 @@ class GridListExampleSimple extends React.Component {
    }  
 }
 
-// class OrderList extends React.Component {
-//    render() {
-//       return (
-//          <ul>
-//             {this.props.orderItems.map(item => (
-//                <div>
-//                   <li key={item.id}>{item.id}</li>
-//                   <li>{item.nombre}</li>
-//                   <li>{item.precio}</li>
-//                   <li>{item.cantidad}</li>
-//                </div>
-//             ))}
-//          </ul>
-//       );
-//    }
-// }
+
 
 
 export default GridListExampleSimple;
