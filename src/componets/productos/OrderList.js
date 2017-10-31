@@ -12,10 +12,11 @@ class OrderList extends React.Component {
                {this.props.orderItems.map(item => (
                   <div>
                      <li key={item.id}> 
-                        <strong>{item.nombre}</strong> <br />
-                        ${item.precio} -
+                        <strong>{item.nombre}</strong>  ${item.precio}  <br />
                         Cant. {item.cantidad}
-                        <strong> Comentario:</strong> {item.comentarios}
+                        { item.comentarios.length>1 && 
+                           <div> ({item.comentarios}) <br /> </div> 
+                        }
                      </li>
                   </div>
                ))}

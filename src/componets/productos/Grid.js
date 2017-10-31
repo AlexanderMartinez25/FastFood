@@ -22,8 +22,9 @@ const Grid = (props) => (
                cantidad={1}
                categoria={producto.categoria}
                onProductAdd={props.addProduct}
-               evento={props.evento}  
-               comentario={props.comentario}  
+               evento={props.evento}
+               comentario={props.comentario}
+               orderItems={props.orderItems}
             />
          </div>
       ))}

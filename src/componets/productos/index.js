@@ -79,7 +79,7 @@ class GridListExampleSimple extends React.Component {
    getStepContent(stepIndex) {
       switch (stepIndex) {
          case 0:
-            return <MenuProductos evento={this.getOrderIntems} />;
+            return <MenuProductos listado={this.state.orderList} evento={this.getOrderIntems} />;
          case 1:
             return <TipoPago eventoInput={this.handleInputChange} eventoCheque={this.toggleCheque} eventoEfectivo={this.toggleEfectivo} propiedades={this.state}/>;
          case 2:
@@ -104,14 +104,16 @@ class GridListExampleSimple extends React.Component {
    toggleEfectivo () {
       const currentState = this.state.toggleEfectivo;
       this.setState({ 
-         toggleEfectivo: !currentState,
+			toggleEfectivo: !currentState,
+			valueEfectvo: 0
       });
    }
 
    toggleCheque () {
       const currentState = this.state.toggleCheque;
       this.setState({ 
-         toggleCheque: !currentState,
+			toggleCheque: !currentState,
+			valueCheque: 0
       });
    }
 

@@ -59,7 +59,7 @@ class MenuProductos extends React.Component {
       })
    }
    
-   addProduct = (product,comentarios,active,cantidad) => { 
+   addProduct = (product,comentarios,active,cantidad,isActive) => { 
       
       //Si el producto se encuentra activo
       if (active){ 
@@ -75,6 +75,7 @@ class MenuProductos extends React.Component {
          precio: product.precio,
          comentarios: comentarios,
          cantidad: cantidad ? cantidad : product.cantidad,
+         isActive: isActive
       };
       
       this.setState((prevState) => ({
@@ -87,7 +88,7 @@ class MenuProductos extends React.Component {
       this.props.evento(this.state.orderItems)
 	};
 	
-   handleEventComentario (product,comentarios,cantidad ) {
+   handleEventComentario (product,comentarios,cantidad,isActive) {
 
 		this.deleteProduct(product)
 
@@ -96,7 +97,8 @@ class MenuProductos extends React.Component {
 			nombre: product.nombre,
 			precio: product.precio,
 			comentarios: comentarios,
-			cantidad: cantidad ? cantidad : product.cantidad,
+         cantidad: cantidad ? cantidad : product.cantidad,
+         isActive: isActive         
       };
          
 		this.setState((prevState) => ({
@@ -120,7 +122,7 @@ class MenuProductos extends React.Component {
    };
 
    render() {
-      return (
+      return ( 
          <div style={styles.root}>
             <div style={styles.margin}>
                {/* <h3 className="mdc-typography--Headline">Productos</h3> */}
@@ -142,6 +144,7 @@ class MenuProductos extends React.Component {
                         estilo={styles.gridList} 
                         productos={this.state.cocina}
                         evento={this.addProduct}
+                        orderItems={this.props.listado}
                         comentario={this.handleEventComentario}/>
                   </div>
                   <div style={styles.slide}>
@@ -149,6 +152,7 @@ class MenuProductos extends React.Component {
                         estilo={styles.gridList}
                         productos={this.state.combos} 
                         evento={this.addProduct}
+                        orderItems={this.props.listado}
                         comentario={this.handleEventComentario}/>
                   </div>
                   <div style={styles.slide}>
@@ -156,6 +160,7 @@ class MenuProductos extends React.Component {
                         estilo={styles.gridList} 
                         productos={this.state.postres}
                         evento={this.addProduct}
+                        orderItems={this.props.listado}
                         comentario={this.handleEventComentario}/>
                   </div>
                   <div style={styles.slide}>
@@ -163,6 +168,7 @@ class MenuProductos extends React.Component {
                         estilo={styles.gridList} 
                         productos={this.state.bebidas}
                         evento={this.addProduct}
+                        orderItems={this.props.listado}
                         comentario={this.handleEventComentario}/>
                   </div>
                </SwipeableViews>

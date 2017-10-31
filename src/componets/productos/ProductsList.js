@@ -14,13 +14,16 @@ class CardExampleWithAvatar extends React.Component {
          cantidad: 1,
          comentario : ''
       }
+ 
+      
+      
       this.handledClick = this.handledClick.bind(this);
       this.incrementCant = this.incrementCant.bind(this);
       this.decrementCant = this.decrementCant.bind(this);
       this.handleComentario = this.handleComentario.bind(this);
    }
-
-
+   
+   
    handledClick = () => {
       const currentState = this.state.active;
       this.setState({ 
@@ -46,9 +49,10 @@ class CardExampleWithAvatar extends React.Component {
       });
       this.props.evento(this.props,this.state.comentario,false,this.state.cantidad + 1)
    }
-
+   
+   
    decrementCant = () => {
-
+      
       if (this.state.cantidad>1){
          this.setState({
             cantidad:this.state.cantidad - 1
@@ -56,7 +60,7 @@ class CardExampleWithAvatar extends React.Component {
          this.props.evento(this.props,this.state.comentario,false,this.state.cantidad - 1)
       }
    }
-
+   
    render (){
       const style = {
          container: {
@@ -75,16 +79,30 @@ class CardExampleWithAvatar extends React.Component {
             width: '165'
          }
       }
-
+      
+      let idProducto = this.props.id      
+      this.props.orderItems.length>0 ?
+         // si el producto ya se encuentra en orderItems significa 
+         //que debe reaparecer con sus estados
+         this.props.orderItems.map((producto) => {
+            if (idProducto===producto.id) {
+               this.setState = ({
+                  active: true,
+                  cantidad: producto.cantidad,
+                  comentario : producto.comentario
+               })
+            }
+         })
+         : ''
       return (
          <Card style={this.state.active ? style.container: ''} >
-
+         
             <CardMedia
             onClick={this.handledClick}
             overlay={<CardTitle title={this.props.precio} />}>
-               <img src={this.props.poster} alt={this.props.nombre} />
+            <img src={this.props.poster} alt={this.props.nombre} />
             </CardMedia>
-
+            
             <CardTitle title={this.props.nombre}/>
             
             <CardActions>
