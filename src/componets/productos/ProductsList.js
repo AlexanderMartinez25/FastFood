@@ -9,22 +9,54 @@ import TextField from 'material-ui/TextField';
 class CardExampleWithAvatar extends React.Component {
    constructor(props) {
       super(props);
-      this.state = {
-         active: false,
-         cantidad: 1,
-         comentario : ''
+      
+
+      let idProducto = this.props.id
+      if (this.props.orderItems.length > 0) {
+         // si el producto ya se encuentra en orderItems significa 
+         //que debe reaparecer con sus estados
+         // this.props.orderItems.map((producto) => {
+         for (let key in this.props.orderItems) {
+            let producto = this.props.orderItems[key];
+            if (producto.id===idProducto){ 
+               return this.state = {
+                  active: producto.id ? true : false,
+                  cantidad: producto.cantidad ? producto.cantidad : 1,
+                  comentario: producto.comentarios ? producto.comentarios : ''
+               }
+            }  
+            // } else {
+            //    return this.state = {
+            //       active: false,
+            //       cantidad: 1,
+            //       comentario: ''
+            //    }
+              
+            }
+            
+      } else {
+         this.state = {
+            active: false,
+            cantidad: 1,
+            comentario: ''
+         }
       }
+                               
+		
+		// this.history()
  
-      
-      
       this.handledClick = this.handledClick.bind(this);
       this.incrementCant = this.incrementCant.bind(this);
       this.decrementCant = this.decrementCant.bind(this);
-      this.handleComentario = this.handleComentario.bind(this);
+		this.handleComentario = this.handleComentario.bind(this);
+		// this.history = this.history.bind(this);
    }
    
-   
-   handledClick = () => {
+   // history () {
+
+   // }
+
+   handledClick () {
       const currentState = this.state.active;
       this.setState({ 
          active: !currentState,
@@ -43,15 +75,14 @@ class CardExampleWithAvatar extends React.Component {
       this.props.comentario(this.props,this.state.comentario,this.state.cantidad)
    };
    
-   incrementCant = () => {
+   incrementCant () {
       this.setState({
          cantidad:this.state.cantidad + 1
       });
       this.props.evento(this.props,this.state.comentario,false,this.state.cantidad + 1)
    }
    
-   
-   decrementCant = () => {
+   decrementCant () {
       
       if (this.state.cantidad>1){
          this.setState({
@@ -59,8 +90,8 @@ class CardExampleWithAvatar extends React.Component {
          })
          this.props.evento(this.props,this.state.comentario,false,this.state.cantidad - 1)
       }
-   }
-   
+	}
+	
    render (){
       const style = {
          container: {
@@ -70,7 +101,7 @@ class CardExampleWithAvatar extends React.Component {
             color: '#43A047'
          },
          floating:{
-            'text-align': 'center',
+            'textAlign': 'center',
          },
          button:{
             marginRight: 20,
@@ -79,21 +110,7 @@ class CardExampleWithAvatar extends React.Component {
             width: '165'
          }
       }
-      
-      let idProducto = this.props.id      
-      this.props.orderItems.length>0 ?
-         // si el producto ya se encuentra en orderItems significa 
-         //que debe reaparecer con sus estados
-         this.props.orderItems.map((producto) => {
-            if (idProducto===producto.id) {
-               this.setState = ({
-                  active: true,
-                  cantidad: producto.cantidad,
-                  comentario : producto.comentario
-               })
-            }
-         })
-         : ''
+
       return (
          <Card style={this.state.active ? style.container: ''} >
          
@@ -109,7 +126,7 @@ class CardExampleWithAvatar extends React.Component {
             
             {this.state.active &&
                <div style={style.floating}>
-                  <TextField hintText="Comentarios" name="comentario" onBlur={this.handleComentario} style={style.input}/>
+                  <TextField hintText="Comentarios" name="comentario" value={this.state.comentario} onChange={this.handleComentario} style={style.input}/>
                   <h3 className="mdc-typography--subheading"> Cantidad: {this.state.cantidad}</h3>
                   
                   <FloatingActionButton

@@ -59,7 +59,7 @@ class MenuProductos extends React.Component {
       })
    }
    
-   addProduct = (product,comentarios,active,cantidad,isActive) => { 
+   addProduct = (product,comentarios,active,cantidad) => { 
       
       //Si el producto se encuentra activo
       if (active){ 
@@ -75,7 +75,7 @@ class MenuProductos extends React.Component {
          precio: product.precio,
          comentarios: comentarios,
          cantidad: cantidad ? cantidad : product.cantidad,
-         isActive: isActive
+         isActive: !active
       };
       
       this.setState((prevState) => ({

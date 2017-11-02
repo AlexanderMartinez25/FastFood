@@ -28,7 +28,7 @@ class GridListExampleSimple extends React.Component {
          toggleCheque : false,
          
       }
-      this.getOrderIntems = this.getOrderIntems.bind(this);
+      this.getOrderItems = this.getOrderItems.bind(this);
       this.totalizar = this.totalizar.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
       this.toggleEfectivo = this.toggleEfectivo.bind(this);
@@ -36,7 +36,7 @@ class GridListExampleSimple extends React.Component {
 
    }
 
-   getOrderIntems(list) {
+   getOrderItems(list) {
       this.setState ({
          orderList: list
       })
@@ -79,7 +79,7 @@ class GridListExampleSimple extends React.Component {
    getStepContent(stepIndex) {
       switch (stepIndex) {
          case 0:
-            return <MenuProductos listado={this.state.orderList} evento={this.getOrderIntems} />;
+            return <MenuProductos listado={this.state.orderList} evento={this.getOrderItems} />;
          case 1:
             return <TipoPago eventoInput={this.handleInputChange} eventoCheque={this.toggleCheque} eventoEfectivo={this.toggleEfectivo} propiedades={this.state}/>;
          case 2:
