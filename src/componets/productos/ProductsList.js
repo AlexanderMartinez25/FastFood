@@ -24,16 +24,17 @@ class CardExampleWithAvatar extends React.Component {
                   cantidad: producto.cantidad ? producto.cantidad : 1,
                   comentario: producto.comentarios ? producto.comentarios : ''
                }
-            }  
-            // } else {
-            //    return this.state = {
-            //       active: false,
-            //       cantidad: 1,
-            //       comentario: ''
-            //    }
+               
+            } else {
+               return this.state = {
+                  active: false,
+                  cantidad: 1,
+                  comentario: ''
+               }
               
             }
             
+         }
       } else {
          this.state = {
             active: false,
