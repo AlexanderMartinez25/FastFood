@@ -10,52 +10,39 @@ class CardExampleWithAvatar extends React.Component {
    constructor(props) {
       super(props);
       
+      this.history()
 
-      let idProducto = this.props.id
-      if (this.props.orderItems.length > 0) {
-         // si el producto ya se encuentra en orderItems significa 
-         //que debe reaparecer con sus estados
-         // this.props.orderItems.map((producto) => {
-         for (let key in this.props.orderItems) {
-            let producto = this.props.orderItems[key];
-            if (producto.id===idProducto){ 
-               return this.state = {
-                  active: producto.id ? true : false,
-                  cantidad: producto.cantidad ? producto.cantidad : 1,
-                  comentario: producto.comentarios ? producto.comentarios : ''
-               }
-               
-            } else {
-               return this.state = {
-                  active: false,
-                  cantidad: 1,
-                  comentario: ''
-               }
-              
-            }
-            
-         }
-      } else {
-         this.state = {
-            active: false,
-            cantidad: 1,
-            comentario: ''
-         }
-      }
-                               
-		
-		// this.history()
- 
       this.handledClick = this.handledClick.bind(this);
       this.incrementCant = this.incrementCant.bind(this);
       this.decrementCant = this.decrementCant.bind(this);
 		this.handleComentario = this.handleComentario.bind(this);
-		// this.history = this.history.bind(this);
+      this.history = this.history.bind(this);
+      this.createState = this.createState.bind(this);
    }
    
-   // history () {
+   history () {
+      let idProducto = this.props.id
+      // si el producto ya se encuentra en orderItems significa 
+      //que debe reaparecer con sus estados
+      for (let key in this.props.orderItems) {
+         let producto = this.props.orderItems[key]
 
-   // }
+         if (producto.id === idProducto) {
+            return this.createState(true, producto.cantidad, producto.comentarios)
+         }
+
+      }
+      return this.createState(false)
+   }
+
+   createState (isActive, cantidad, comentarios) {
+      this.state = {
+         active: isActive ? true : false,
+         cantidad: cantidad ? cantidad : 1,
+         comentario: comentarios ? comentarios : ''
+      }
+
+   }
 
    handledClick () {
       const currentState = this.state.active;

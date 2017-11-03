@@ -83,7 +83,6 @@ class GridListExampleSimple extends React.Component {
          case 1:
             return <TipoPago eventoInput={this.handleInputChange} eventoCheque={this.toggleCheque} eventoEfectivo={this.toggleEfectivo} propiedades={this.state}/>;
          case 2:
-            
             return <InfoCambio total={this.state.subtotal} cambio={this.state.cambio} />;
          default:
             return 'You\'re a long way from home sonny jim!';
@@ -197,6 +196,7 @@ class GridListExampleSimple extends React.Component {
                            });
                         }}
                         style={{marginRight: 12}}
+                        disabled={!this.state.orderList.length}
                      />
                      <FlatButton
                         label="Regresar"

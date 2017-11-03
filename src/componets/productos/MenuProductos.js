@@ -44,8 +44,10 @@ class MenuProductos extends React.Component {
          combos: combos,
          productos: productos,
          slideIndex: 0,
-         orderItems: [],
+         orderItems: this.props.listado ? this.props.listado : [],
       }
+
+
       this.deleteProduct = this.deleteProduct.bind(this)      
       this.addProduct = this.addProduct.bind(this)
       this.APICallFunction = this.APICallFunction.bind(this)
@@ -53,13 +55,13 @@ class MenuProductos extends React.Component {
       
    }
 
-   handleChange = (value) => {
+   handleChange (value) {
       this.setState({
          slideIndex: value,
       })
    }
    
-   addProduct = (product,comentarios,active,cantidad) => { 
+   addProduct (product,comentarios,active,cantidad) { 
       
       //Si el producto se encuentra activo
       if (active){ 
@@ -107,7 +109,7 @@ class MenuProductos extends React.Component {
 		)
    }
 
-   deleteProduct = (product) => {
+   deleteProduct (product) {
       let array = this.state.orderItems,
          itemRemoved = array.filter(function(el) {
              return el.id !== product.id;
