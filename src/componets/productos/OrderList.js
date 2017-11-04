@@ -1,17 +1,46 @@
 import React from 'react';
-const style= {
+import IconButton from 'material-ui/IconButton';
+import ContentClear from 'material-ui/svg-icons/content/clear';
+
+
+let style= {
    'list-style-type':'decimal',
+   clear: {
+      float: 'right',
+      marginTop: '-15px',  
+   }
 }
 
 class OrderList extends React.Component {
+   constructor(props) {
+      super(props);
+      this.state = {
+         show: false
+      }
+      this.handleHover = this.handleHover.bind(this);
+   }
+
+   handleHover(){
+      this.setState({
+         show: !this.state.show
+      });
+   }
+
    render() {
       return (
          <div>
             <h3>Orden:</h3>
-            <ul style={style}>
-               {this.props.orderItems.map(item => (
+            <ul style={style} className="orderList">
+               {this.props.orderItems.orderList.map(item => (
                   <div>
-                     <li key={item.id}> 
+                     <li key={item.id} onMouseOver={ this.handleHover } onMouseOut={ this.handleHover }> 
+                        <IconButton style={style.clear} tooltip="Eliminar">
+                          
+                              {/* {this.state.show ? ( */}
+                                 <ContentClear />
+                           {/* ) : null 
+                           } */}
+                        </IconButton>
                         <strong>{item.nombre}</strong>  ${item.precio}  <br />
                         Cant. {item.cantidad}
                         { item.comentarios.length>1 && 

@@ -63,7 +63,7 @@ class ToggleExampleSimple extends React.Component {
    render() {
       return (
          <div style={styles.root}>
-            <OrderList orderItems={this.props.propiedades.orderList} />
+            <OrderList orderItems={this.props.propiedades} />
          
             <GridList>
                <div style={styles.block}>
