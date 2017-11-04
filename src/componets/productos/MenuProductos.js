@@ -47,15 +47,13 @@ class MenuProductos extends React.Component {
          orderItems: this.props.listado ? this.props.listado : [],
       }
 
-
       this.deleteProduct = this.deleteProduct.bind(this)      
       this.addProduct = this.addProduct.bind(this)
       this.APICallFunction = this.APICallFunction.bind(this)
       this.handleEventComentario = this.handleEventComentario.bind(this);
-      
    }
 
-   handleChange (value) {
+   handleChange = (value) => {
       this.setState({
          slideIndex: value,
       })

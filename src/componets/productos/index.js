@@ -26,6 +26,7 @@ class GridListExampleSimple extends React.Component {
          valueCheque : 0,
          toggleEfectivo : false,
          toggleCheque : false,
+         cancelarPedido : false
          
       }
       this.getOrderItems = this.getOrderItems.bind(this);
@@ -33,7 +34,13 @@ class GridListExampleSimple extends React.Component {
       this.handleInputChange = this.handleInputChange.bind(this);
       this.toggleEfectivo = this.toggleEfectivo.bind(this);
       this.toggleCheque = this.toggleCheque.bind(this);
+      this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
 
+   }
+
+   forceUpdateHandler() {
+      this.forceUpdate()
+      return <MenuProductos listado={this.state.orderList} evento={this.getOrderItems} />;
    }
 
    getOrderItems(list) {
@@ -79,6 +86,13 @@ class GridListExampleSimple extends React.Component {
    getStepContent(stepIndex) {
       switch (stepIndex) {
          case 0:
+            // si se cancela el pedido limpiar todo el componente
+            if (this.state.cancelarPedido){
+               this.setState({
+                  cancelarPedido: false
+               }, () => this.forceUpdateHandler())
+               return
+            }
             return <MenuProductos listado={this.state.orderList} evento={this.getOrderItems} />;
          case 1:
             return <TipoPago eventoInput={this.handleInputChange} eventoCheque={this.toggleCheque} eventoEfectivo={this.toggleEfectivo} propiedades={this.state}/>;
@@ -141,16 +155,16 @@ class GridListExampleSimple extends React.Component {
                   onClick={(event) => {
                      event.preventDefault();
                      this.setState({
-                           finished: false,
-                           stepIndex: 0,
-                           orderList: [],
-                           subtotal: 0,        
-                           cambio : 0,
-                           valueEfectivo : 0,
-                           valueCheque : 0,
-                           toggleEfectivo : false,
-                           toggleCheque : false
-                        });
+                        finished: false,
+                        stepIndex: 0,
+                        orderList: [],
+                        subtotal: 0,        
+                        cambio : 0,
+                        valueEfectivo : 0,
+                        valueCheque : 0,
+                        toggleEfectivo : false,
+                        toggleCheque : false
+                     });
                   }}
                   >
                   
@@ -192,7 +206,8 @@ class GridListExampleSimple extends React.Component {
                               valueEfectivo : 0,
                               valueCheque : 0,
                               toggleEfectivo : false,
-                              toggleCheque : false
+                              toggleCheque : false,
+                              cancelarPedido : true 
                            });
                         }}
                         style={{marginRight: 12}}
