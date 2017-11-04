@@ -80,7 +80,8 @@ class CardExampleWithAvatar extends React.Component {
          this.props.evento(this.props,this.state.comentario,false,this.state.cantidad - 1)
       }
 	}
-	
+   
+   
    render (){
       const style = {
          container: {
@@ -115,7 +116,8 @@ class CardExampleWithAvatar extends React.Component {
             
             {this.state.active &&
                <div style={style.floating}>
-                  <TextField hintText="Comentarios" name="comentario" value={this.state.comentario} onChange={this.handleComentario} style={style.input}/>
+                  <TextField hintText="Comentarios" name="comentario" value={this.state.comentario} 
+                     onChange={this.handleComentario} style={style.input} autoFocus />
                   <h3 className="mdc-typography--subheading"> Cantidad: {this.state.cantidad}</h3>
                   
                   <FloatingActionButton
