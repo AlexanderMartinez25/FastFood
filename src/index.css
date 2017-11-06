@@ -4,3 +4,12 @@ body {
   font-family: sans-serif;
 }
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+ul.orderList li {
+  padding: 5px;
+}
+
+ul.orderList li:hover {
+  background-color: rgba(189, 189, 189, 0.29);
+  border-radius: 5px
+}
