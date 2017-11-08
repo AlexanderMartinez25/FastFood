@@ -15,7 +15,7 @@ class CardExampleWithAvatar extends React.Component {
       this.handledClick = this.handledClick.bind(this);
       this.incrementCant = this.incrementCant.bind(this);
       this.decrementCant = this.decrementCant.bind(this);
-	   this.handleComentario = this.handleComentario.bind(this);
+	this.handleComentario = this.handleComentario.bind(this);
       this.history = this.history.bind(this);
       this.createState = this.createState.bind(this);
    }

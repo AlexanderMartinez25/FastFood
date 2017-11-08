@@ -34,7 +34,7 @@ class OrderList extends React.Component {
                {this.props.orderItems.orderList.map(item => (
                   <div>
                      <li key={item.id} onMouseOver={ this.handleHover } onMouseOut={ this.handleHover }> 
-                        <IconButton style={style.clear} tooltip="Eliminar">
+                        <IconButton style={style.clear} tooltip="Eliminar" onClick={(e) => this.props.eventoDeleteProduct(item, e)}>
                           
                               {/* {this.state.show ? ( */}
                                  <ContentClear />

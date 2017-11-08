@@ -23,24 +23,29 @@ class GridListExampleSimple extends React.Component {
          subtotal: 0,        
          cambio : 0,
          valueEfectivo : 0,
-         valueCheque : 0,
+         valueTarjeta : 0,
          toggleEfectivo : false,
-         toggleCheque : false,
-         cancelarPedido : false
-         
+         toggleTarjeta : false,
+         cancelarPedido : false,
+         orderItems: []
       }
-      this.getOrderItems = this.getOrderItems.bind(this);
-      this.totalizar = this.totalizar.bind(this);
-      this.handleInputChange = this.handleInputChange.bind(this);
-      this.toggleEfectivo = this.toggleEfectivo.bind(this);
-      this.toggleCheque = this.toggleCheque.bind(this);
-      this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
-
+      this.getOrderItems = this.getOrderItems.bind(this)
+      this.totalizar = this.totalizar.bind(this)
+      this.handleInputChange = this.handleInputChange.bind(this)
+      this.toggleEfectivo = this.toggleEfectivo.bind(this)
+      this.toggleTarjeta = this.toggleTarjeta.bind(this)
+      this.forceUpdateHandler = this.forceUpdateHandler.bind(this)
+      this.deleteProduct = this.deleteProduct.bind(this)
+      this.addProduct = this.addProduct.bind(this)
+      this.APICallFunction = this.APICallFunction.bind(this)
+      this.handleComentario = this.handleComentario.bind(this)
    }
 
    forceUpdateHandler() {
       this.forceUpdate()
-      return <MenuProductos listado={this.state.orderList} evento={this.getOrderItems} />;
+      return <MenuProductos listado={this.state.orderList}
+         evento={this.getOrderItems} eventoAddProduct={this.addProduct} eventoComentario={this.handleComentario}
+         eventoDeleteProduct={this.deleteProduct} />;
    }
 
    getOrderItems(list) {
@@ -51,11 +56,11 @@ class GridListExampleSimple extends React.Component {
    }
 
    handleNext = () => {
-      const {stepIndex,valueCheque,valueEfectivo,subtotal} = this.state;
+      const {stepIndex,valueTarjeta,valueEfectivo,subtotal} = this.state;
       this.setState({
         stepIndex: stepIndex + 1,
         finished: stepIndex >= 2,
-        cambio: (valueCheque+valueEfectivo)-subtotal
+        cambio: (valueTarjeta+valueEfectivo)-subtotal
       });
    };
 
@@ -70,12 +75,15 @@ class GridListExampleSimple extends React.Component {
       let subtotal = this.state.subtotal,
           name = target.name,
           montoTotal = this.unformat(target.value,subtotal);
-          // cambio = (montoTotal+this.state.valueCheque+this.state.valueEfectivo) - subtotal;
+          // cambio = (montoTotal+this.state.valueTarjeta+this.state.valueEfectivo) - subtotal;
       this.setState({ [name] : montoTotal});
 
    }
    
    unformat(value){
+      if (value === "") {
+         return 0
+      }
       let monto1 = value.replace("$",''),
           monto2 = monto1.replace(".",''),
           montoTotal = monto2.replace(",",'.');
@@ -93,9 +101,13 @@ class GridListExampleSimple extends React.Component {
                }, () => this.forceUpdateHandler())
                return
             }
-            return <MenuProductos listado={this.state.orderList} evento={this.getOrderItems} />;
+            return <MenuProductos listado={this.state.orderList} 
+                     evento={this.getOrderItems} eventoAddProduct={this.addProduct} eventoComentario={this.handleComentario}
+                     eventoDeleteProduct={this.deleteProduct}/>;
          case 1:
-            return <TipoPago eventoInput={this.handleInputChange} eventoCheque={this.toggleCheque} eventoEfectivo={this.toggleEfectivo} propiedades={this.state}/>;
+            return <TipoPago eventoInput={this.handleInputChange} 
+                     eventoTarjeta={this.toggleTarjeta} eventoDeleteProduct={this.deleteProduct}
+                     eventoEfectivo={this.toggleEfectivo} propiedades={this.state}/>;
          case 2:
             return <InfoCambio total={this.state.subtotal} cambio={this.state.cambio} />;
          default:
@@ -103,10 +115,10 @@ class GridListExampleSimple extends React.Component {
       }
    }
 
-   totalizar (objeto) {
+   totalizar (list) {
       let resultado = 0;
-      for (let i in objeto) {
-         resultado += objeto[i].precio*objeto[i].cantidad;
+      for (let i in list) {
+         resultado += list[i].precio*list[i].cantidad;
       }
       
       this.setState({
@@ -115,21 +127,85 @@ class GridListExampleSimple extends React.Component {
    }
 
    toggleEfectivo () {
-      const currentState = this.state.toggleEfectivo;
+      const currentStateE = this.state.toggleEfectivo;
       this.setState({ 
-			toggleEfectivo: !currentState,
-			valueEfectvo: 0
+			toggleEfectivo: !currentStateE,
+			valueEfectivo: 0
       });
    }
 
-   toggleCheque () {
-      const currentState = this.state.toggleCheque;
+   toggleTarjeta () {
+      const currentStateT = this.state.toggleTarjeta;
       this.setState({ 
-			toggleCheque: !currentState,
-			valueCheque: 0
+			toggleTarjeta: !currentStateT,
+			valueTarjeta: 0
       });
    }
 
+   addProduct(product, comentarios, active, cantidad) {
+
+      //Si el producto se encuentra activo
+      if (active) {
+         this.deleteProduct(product)
+         return
+      } else if (cantidad) {//si se esta sumando al mismo producto
+         this.deleteProduct(product)
+      };
+
+      const newItem = {
+         id: product.id,
+         nombre: product.nombre,
+         precio: product.precio,
+         comentarios: comentarios,
+         cantidad: cantidad ? cantidad : product.cantidad,
+         isActive: !active
+      };
+
+      this.setState((prevState) => ({
+         orderItems: prevState.orderItems.concat(newItem),
+      }), () => this.APICallFunction()
+      )
+   }
+
+   APICallFunction() {
+      this.getOrderItems(this.state.orderItems)
+   }
+
+   deleteProduct(product) {
+      let array = this.state.orderItems,
+         itemRemoved = array.filter(function (el) {
+            return el.id !== product.id;
+         }),
+         newArray = itemRemoved;
+
+      this.setState((prevState) => ({
+            orderItems: newArray,
+         }), () => this.APICallFunction()
+      )
+
+   }
+
+   handleComentario (newItem) {
+      this.setState((prevState) => ({
+            orderItems: prevState.orderItems.concat(newItem),
+         }), () => this.APICallFunction()
+      )
+   }
+   start (cancel,order) {
+      this.setState({
+         finished: false,
+         stepIndex: 0,
+         orderList: [],
+         subtotal: 0,
+         cambio: 0,
+         valueEfectivo: 0,
+         valueTarjeta: 0,
+         toggleEfectivo: false,
+         toggleTarjeta: false,
+         cancelarPedido: cancel ? cancel : false,
+         orderItems: order ? [] : this.state.orderItems
+      });
+   }
    render() {
       const {finished, stepIndex} = this.state;
       const contentStyle = {margin: '0 16px'};
@@ -153,18 +229,8 @@ class GridListExampleSimple extends React.Component {
                   <a
                   href="#"
                   onClick={(event) => {
-                     event.preventDefault();
-                     this.setState({
-                        finished: false,
-                        stepIndex: 0,
-                        orderList: [],
-                        subtotal: 0,        
-                        cambio : 0,
-                        valueEfectivo : 0,
-                        valueCheque : 0,
-                        toggleEfectivo : false,
-                        toggleCheque : false
-                     });
+                     event.preventDefault()
+                     this.start()
                   }}
                   >
                   
@@ -172,18 +238,8 @@ class GridListExampleSimple extends React.Component {
                      label="Regresar"
                      primary={true}
                      onClick={(event) => {
-                        event.preventDefault();
-                        this.setState({
-                           finished: false,
-                           stepIndex: 0,
-                           orderList: [],
-                           subtotal: 0,        
-                           cambio : 0,
-                           valueEfectivo : 0,
-                           valueCheque : 0,
-                           toggleEfectivo : false,
-                           toggleCheque : false
-                        });
+                        event.preventDefault()
+                        this.start()
                      }}
                   />
                   </a> 
@@ -197,18 +253,7 @@ class GridListExampleSimple extends React.Component {
                         disabled={stepIndex === 0}
                         onClick={(event) => {
                            event.preventDefault();
-                           this.setState({
-                              finished: false,
-                              stepIndex: 0,
-                              orderList: [],
-                              subtotal: 0,        
-                              cambio : 0,
-                              valueEfectivo : 0,
-                              valueCheque : 0,
-                              toggleEfectivo : false,
-                              toggleCheque : false,
-                              cancelarPedido : true 
-                           });
+                           this.start(true,true);
                         }}
                         style={{marginRight: 12}}
                         disabled={!this.state.orderList.length}
@@ -233,8 +278,5 @@ class GridListExampleSimple extends React.Component {
       );
    }  
 }
-
-
-
 
 export default GridListExampleSimple;

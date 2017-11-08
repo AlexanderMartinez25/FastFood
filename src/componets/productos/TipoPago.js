@@ -43,7 +43,7 @@ class ToggleExampleSimple extends React.Component {
    constructor(props) {
       super(props);
       this.handleToggleEfectivo = this.handleToggleEfectivo.bind(this);
-      this.handleToggleCheque = this.handleToggleCheque.bind(this);
+      this.handleToggleTarjeta = this.handleToggleTarjeta.bind(this);
       this.handleChange = this.handleChange.bind(this);
    }
 
@@ -51,8 +51,8 @@ class ToggleExampleSimple extends React.Component {
       this.props.eventoEfectivo()
    }
 
-   handleToggleCheque () {
-      this.props.eventoCheque()
+   handleToggleTarjeta () {
+      this.props.eventoTarjeta()
    }
 
    handleChange(event) {
@@ -63,7 +63,7 @@ class ToggleExampleSimple extends React.Component {
    render() {
       return (
          <div style={styles.root}>
-            <OrderList orderItems={this.props.propiedades} />
+				<OrderList orderItems={this.props.propiedades} eventoDeleteProduct={this.props.eventoDeleteProduct}/>
          
             <GridList>
                <div style={styles.block}>
@@ -78,17 +78,18 @@ class ToggleExampleSimple extends React.Component {
                          value={this.props.propiedades.valueEfectivo} onChange={this.handleChange} thousandSeparator={'.'} prefix={'$'} /> : null
                   }
                   <Toggle
-                     label="Cheque"
+                     label="Tarjeta"
                      style={styles.toggle}
-                     defaultToggled={this.props.propiedades.valueCheque}
-                     onToggle={this.handleToggleCheque}
+                     defaultToggled={this.props.propiedades.valueTarjeta}
+                     onToggle={this.handleToggleTarjeta}
                   />
-                  {this.props.propiedades.toggleCheque ? 
-                     <NumberFormat hintText="Cantidad" name="valueCheque" customInput={TextField} decimalSeparator=","
-                        value={this.props.propiedades.valueCheque} onChange={(e,values) => this.handleChange(e,values)} thousandSeparator={'.'} prefix={'$'} /> : null
+                  {this.props.propiedades.toggleTarjeta ? 
+                     <NumberFormat hintText="Cantidad" name="valueTarjeta" customInput={TextField} decimalSeparator=","
+                        value={this.props.propiedades.valueTarjeta} onChange={this.handleChange} thousandSeparator={'.'} prefix={'$'} /> : null
                   }
                </div>
-               </GridList>
+            </GridList>
+
             <h3>Total: <NumberFormat value={this.props.propiedades.subtotal} displayType={'text'} 
             decimalSeparator="," thousandSeparator={'.'} prefix={'$'} /></h3>
                         

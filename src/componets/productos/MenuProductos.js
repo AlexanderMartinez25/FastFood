@@ -33,7 +33,7 @@ const styles = {
       background: '#3F51B5',
    }
 };
-
+ 
 class MenuProductos extends React.Component {
    constructor(props) {
       super(props);
@@ -44,12 +44,8 @@ class MenuProductos extends React.Component {
          combos: combos,
          productos: productos,
          slideIndex: 0,
-         orderItems: this.props.listado ? this.props.listado : [],
-      }
-
-      this.deleteProduct = this.deleteProduct.bind(this)      
-      this.addProduct = this.addProduct.bind(this)
-      this.APICallFunction = this.APICallFunction.bind(this)
+		}
+		
       this.handleEventComentario = this.handleEventComentario.bind(this);
    }
 
@@ -59,38 +55,10 @@ class MenuProductos extends React.Component {
       })
    }
    
-   addProduct (product,comentarios,active,cantidad) { 
-      
-      //Si el producto se encuentra activo
-      if (active){ 
-         this.deleteProduct(product)
-         return
-      }else if(cantidad){//si se esta sumando al mismo producto
-         this.deleteProduct(product)
-      };
-      
-      const newItem = {
-         id: product.id,
-         nombre: product.nombre,
-         precio: product.precio,
-         comentarios: comentarios,
-         cantidad: cantidad ? cantidad : product.cantidad,
-         isActive: !active
-      };
-      
-      this.setState((prevState) => ({
-         orderItems: prevState.orderItems.concat(newItem),
-         }), () => this.APICallFunction()
-      )
-   };
-   
-   APICallFunction () {
-      this.props.evento(this.state.orderItems)
-	};
 	
    handleEventComentario (product,comentarios,cantidad,isActive) {
 
-		this.deleteProduct(product)
+		this.props.eventoDeleteProduct(product)
 
 		const newItem = {
 			id: product.id,
@@ -98,28 +66,12 @@ class MenuProductos extends React.Component {
 			precio: product.precio,
 			comentarios: comentarios,
          cantidad: cantidad ? cantidad : product.cantidad,
-         isActive: isActive         
+			isActive: isActive         
       };
          
-		this.setState((prevState) => ({
-			orderItems: prevState.orderItems.concat(newItem),
-			}), () => this.APICallFunction()
-		)
+		this.props.eventoComentario(newItem)
    }
 
-   deleteProduct (product) {
-      let array = this.state.orderItems,
-         itemRemoved = array.filter(function(el) {
-             return el.id !== product.id;
-         }),
-         newArray=itemRemoved;
-
-      this.setState((prevState) => ({
-         orderItems: newArray,
-         }), () => this.APICallFunction()
-      )
-   
-   };
 
    render() {
       return ( 
@@ -143,7 +95,7 @@ class MenuProductos extends React.Component {
                      <Grid 
                         estilo={styles.gridList} 
                         productos={this.state.cocina}
-                        evento={this.addProduct}
+								evento={this.props.eventoAddProduct}
                         orderItems={this.props.listado}
                         comentario={this.handleEventComentario}/>
                   </div>
@@ -151,7 +103,7 @@ class MenuProductos extends React.Component {
                      <Grid 
                         estilo={styles.gridList}
                         productos={this.state.combos} 
-                        evento={this.addProduct}
+								evento={this.props.eventoAddProduct}
                         orderItems={this.props.listado}
                         comentario={this.handleEventComentario}/>
                   </div>
@@ -159,7 +111,7 @@ class MenuProductos extends React.Component {
                      <Grid 
                         estilo={styles.gridList} 
                         productos={this.state.postres}
-                        evento={this.addProduct}
+								evento={this.props.eventoAddProduct}
                         orderItems={this.props.listado}
                         comentario={this.handleEventComentario}/>
                   </div>
@@ -167,7 +119,7 @@ class MenuProductos extends React.Component {
                      <Grid 
                         estilo={styles.gridList} 
                         productos={this.state.bebidas}
-                        evento={this.addProduct}
+								evento={this.props.eventoAddProduct}
                         orderItems={this.props.listado}
                         comentario={this.handleEventComentario}/>
                   </div>
