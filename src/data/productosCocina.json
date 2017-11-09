@@ -3,7 +3,7 @@
     {
       "id": 1,
       "nombre": "Pizza Americana",
-      "poster": "https://media.betazeta.com/sabrosia/2016/05/maxresdefault.jpg",
+      "poster": "",
       "precio": 6500,
       "descripcion": "Pepperoni, mozzarella, pimentón, tomate y aceitunas.",
       "categoria": 0

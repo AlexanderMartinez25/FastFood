@@ -4,6 +4,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import TextField from 'material-ui/TextField';
+import  logo from "./img/producto.png";
 
 
 class CardExampleWithAvatar extends React.Component {
@@ -15,7 +16,7 @@ class CardExampleWithAvatar extends React.Component {
       this.handledClick = this.handledClick.bind(this);
       this.incrementCant = this.incrementCant.bind(this);
       this.decrementCant = this.decrementCant.bind(this);
-	this.handleComentario = this.handleComentario.bind(this);
+	   this.handleComentario = this.handleComentario.bind(this);
       this.history = this.history.bind(this);
       this.createState = this.createState.bind(this);
    }
@@ -98,7 +99,10 @@ class CardExampleWithAvatar extends React.Component {
          },
          input: {
             width: '165'
-         }
+			},
+			img: {
+				maxHeight: '125px'
+			}
       }
 
       return (
@@ -107,7 +111,7 @@ class CardExampleWithAvatar extends React.Component {
             <CardMedia
             onClick={this.handledClick}
             overlay={<CardTitle title={this.props.precio} />}>
-            <img src={this.props.poster} alt={this.props.nombre} />
+					<img src={this.props.poster ? this.props.poster: logo } style={style.img} alt={this.props.nombre} />
             </CardMedia>
             
             <CardTitle title={this.props.nombre}/>
@@ -141,6 +145,5 @@ class CardExampleWithAvatar extends React.Component {
    }
   
 };
-
 
 export default CardExampleWithAvatar;

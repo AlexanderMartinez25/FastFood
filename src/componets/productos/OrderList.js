@@ -31,7 +31,7 @@ class OrderList extends React.Component {
          <div>
             <h3>Orden:</h3>
             <ul style={style} className="orderList">
-               {this.props.orderItems.orderList.map(item => (
+               {this.props.orderItems.map(item => (
                   <div>
                      <li key={item.id} onMouseOver={ this.handleHover } onMouseOut={ this.handleHover }> 
                         <IconButton style={style.clear} tooltip="Eliminar" onClick={(e) => this.props.eventoDeleteProduct(item, e)}>
