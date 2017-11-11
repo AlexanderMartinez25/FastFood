@@ -121,7 +121,7 @@ class CardExampleWithAvatar extends React.Component {
             {this.state.active &&
                <div style={style.floating}>
                   <TextField hintText="Comentarios" name="comentario" value={this.state.comentario} 
-                     onChange={this.handleComentario} style={style.input} autoFocus />
+                     onChange={this.handleComentario} style={style.input} />
                   <h3 className="mdc-typography--subheading"> Cantidad: {this.state.cantidad}</h3>
                   
                   <FloatingActionButton
